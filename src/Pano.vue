@@ -90,6 +90,10 @@ export default {
       }
     },
 
+    prevent(e) {
+      event.preventDefault()
+    },
+
     onDrag(e) {
       if (this.pinching) {
         this.animating = true
@@ -401,14 +405,12 @@ export default {
     this.previous.theta = -this.theta
     this.previous.fov = -this.fov
 
-    const zoom = this.zoom.bind(this)
-    const resize = this.resize.bind(resize)
-
+    const { zoom, resize, prevent } = this
     this.$el.addEventListener('mousewheel', zoom, false)
     this.$el.addEventListener('DOMMouseScroll', zoom, false)
     addEventListener('resize', resize, false)
-    addEventListener('touchmove', event => event.preventDefault(), false)
-    document.body.addEventListener('touchstart', event => event.preventDefault())
+    addEventListener('touchmove', prevent, false)
+    document.body.addEventListener('touchstart', prevent)
 
     const vendors = [
       ['requestFullsceen', 'fullScreenElement', 'cancelFullScreen'],
@@ -433,6 +435,19 @@ export default {
     this.loadTextures()
     this.initModel()
     this.draw()
+  },
+
+  beforeDestroy() {
+    const { zoom, resize, prevent } = this
+
+    this.$el.addEventListener('mousewheel', zoom, false)
+    this.$el.addEventListener('DOMMouseScroll', zoom, false)
+    removeEventListener('resize', resize, false)
+    removeEventListener('touchmove', prevent, false)
+    document.body.removeEventListener('touchstart', prevent)
+
+    // todo: release webgl resources
+    // this.gl.deleteTexture()
   },
 
   props: {
