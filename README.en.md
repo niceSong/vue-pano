@@ -20,16 +20,9 @@ You can use [PhotoSphere App from Google](https://www.google.com/streetview/apps
 
 If you are not satisified with the camera on mobile, or you need to take the pircure indoor, you can follow the [instruction here (in Chinese)](https://blog.chichou.me/microsoft-ice-%E5%88%B6%E4%BD%9C%E5%85%A8%E6%99%AF%E7%85%A7%E7%89%87-af114142745d) about how to use the full frame camera with a wide angle lens, and compose these pictures into a panorama with [Microsoft ICE](http://research.microsoft.com/en-us/um/redmond/projects/ice/).
 
-### The code
+The demo texture can be found under `example/assets/pano` directory.
 
-Directly use the build.js can produce a panorama view with a simple html tag:
-
-```javascript
-<pano title="长亭科技前台" width="720" height="480" bundle="assets/pano/reception/" format="jpg"></pano>
-<pano title="茶水间" width="720" height="480" bundle="assets/pano/pantry/" format="jpg"></pano>
-```
-
-Also, you can import the component to your vue project.
+### The Component
 
 ```javascript
 <script>
@@ -40,7 +33,10 @@ import Pano from 'vue-pano'
 export default {
   components: { Pano }
 }
-<script>
+</script>
+<template>
+  <pano title="茶水间" width="720" height="480" bundle="example/assets/pano/pantry/" format="jpg"></pano>
+</template>
 ```
 
 Available props are:
@@ -66,6 +62,7 @@ yarn run build
 
 ## TODO
 
+- [ ] json bundle
 - [ ] low quality preview background
 - [ ] image progress bar
 
