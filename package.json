@@ -6,7 +6,8 @@
     "dev": "webpack-dev-server --inline --hot",
     "start": "webpack-dev-server --inline --hot --host=0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "publish": "cross-env NODE_ENV=production ./publish.sh"
+    "bundle": "cross-env NODE_ENV=github webpack --progress --hide-modules",
+    "publish": "./publish.sh"
   },
   "version": "1.2.1",
   "files": ["dist/build.js", "src/"],

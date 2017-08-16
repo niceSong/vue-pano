@@ -11,14 +11,6 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  externals: {
-    vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
-      amd: 'vue'
-    }
-  },
   resolve: {
     modules: [__dirname, 'node_modules'],
     alias: {
@@ -68,9 +60,8 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'github') {
   module.exports.devtool = '#source-map'
-  module.exports.entry = './src/index.js'
   // http://vuejs.github.io/vue-loader/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
@@ -85,4 +76,16 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.optimize.OccurrenceOrderPlugin()
   ])
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.entry = './src/index.js'
+  module.exports.externals = {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue'
+    }
+  }
 }
