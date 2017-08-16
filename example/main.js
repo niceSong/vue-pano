@@ -5,5 +5,3 @@ new Vue({
   el: '#app',
   components: { Pano }
 })
-
-exports.Pano = Pano

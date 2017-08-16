@@ -6,12 +6,23 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'build.js',
+    library: 'vue-pano',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
+  externals: {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue'
+    }
   },
   resolve: {
     modules: [__dirname, 'node_modules'],
     alias: {
-      vue: 'vue/dist/vue.js'
+      vue: 'vue/dist/vue.esm.js'
     }
   },
   module: {
@@ -59,6 +70,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
+  module.exports.entry = './src/index.js'
   // http://vuejs.github.io/vue-loader/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
