@@ -6,7 +6,7 @@
     "dev": "webpack-dev-server --inline --hot",
     "start": "webpack-dev-server --inline --hot --host=0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "publish": "git checkout gh-pages && git rebase master && npm run build && git add . && git commit -m 'update website' && git push -f origin gh-pages; git checkout master"
+    "publish": "cross-env NODE_ENV=production ./publish.sh"
   },
   "version": "1.2.1",
   "files": ["dist/build.js", "src/"],
