@@ -7,9 +7,10 @@
     "start": "webpack-dev-server --inline --hot --host=0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "bundle": "cross-env NODE_ENV=github webpack --progress --hide-modules",
-    "publish": "./publish.sh"
+    "pages": "./pages.sh",
+    "publish": "npm run build"
   },
-  "version": "1.2.1",
+  "version": "1.3.2",
   "files": ["dist/build.js", "src/"],
   "keywords": ["webgl", "browser", "panorama"],
   "homepage": "https://chichou.github.io/vue-pano",

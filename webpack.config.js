@@ -79,7 +79,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'github') 
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.entry = './src/index.js'
+  module.exports.entry = './src/Pano.vue'
   module.exports.externals = {
     vue: {
       root: 'Vue',

@@ -49,7 +49,7 @@ export default class Aff3d {
     this.values[12] = -thirdDirection.dot(pos)
     this.values[13] = -upNormalized.dot(pos)
     this.values[14] = dirNormalized.dot(pos)
-  
+
   }
 
   // Calculates a projection matrix
