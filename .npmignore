@@ -1,0 +1,9 @@
+example/
+node_modules/
+src/
+*.md
+*.png
+*.lock
+*.sh
+webpack.config.js
+index.html
