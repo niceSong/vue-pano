@@ -145,6 +145,10 @@ export default {
         }
       }
 
+      // when image not loaded
+      if (!(canvas && viewport))
+        return
+
       if (width) {
           canvas.style.width = viewport.style.width = width
       } else {
@@ -682,6 +686,8 @@ export default {
 
 canvas {
   background: #000;
+  left: 0;
+  top: 0;
   z-index: -1;
 }
 
