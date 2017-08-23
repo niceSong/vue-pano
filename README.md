@@ -1,14 +1,14 @@
 # vue-pano
 
+[![npm version][npm-image]][npm-url]
+
 基于 WebGL 的全景漫游 vue 组件，支持移动设备。
 
-![截图](screen.png)
+[![截图](screen.png)](https://chichou.github.io/vue-pano/)
 
+扫描如下二维码或访问链接查看演示。
 
-
-扫描如下二维码或访问 [https://chichou.github.io/vue-pano/](https://chichou.github.io/vue-pano/) 查看演示。
-
-![二维码](qrcode.png)
+[![二维码](qrcode.png)](https://chichou.github.io/vue-pano/)
 
 ## 全景图片拍摄和准备
 
@@ -70,3 +70,7 @@ export default {
 
 MIT
 
+
+[npm-image]: https://img.shields.io/npm/v/vue-pano.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/vue-pano
+[demo-url]: https://chichou.github.io/vue-pano/

@@ -1,14 +1,14 @@
 # vue-pano
 
+[![npm version][npm-image]][npm-url]
+
 WebGL panorama component for vue.js
 
-![Screenshot](screen.png)
+[![Screenshot](screen.png)](https://chichou.github.io/vue-pano/)
 
 Click this link or scan the QRCode on your mobile devices to see the demo:
 
-https://chichou.github.io/vue-pano/
-
-![qrcode](qrcode.png)
+[![qrcode](qrcode.png)](https://chichou.github.io/vue-pano/)
 
 ## Usage
 
@@ -69,3 +69,7 @@ yarn run build
 ## License
 
 MIT
+
+
+[npm-image]: https://img.shields.io/npm/v/vue-pano.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/vue-pano
