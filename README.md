@@ -2,6 +2,8 @@
 
 [![npm version][npm-image]][npm-url]
 
+[English document](README.en.md)
+
 基于 WebGL 的全景漫游 vue 组件，支持移动设备。
 
 [![截图](screen.png)](https://chichou.github.io/vue-pano/)
