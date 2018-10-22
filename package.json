@@ -10,7 +10,7 @@
     "pages": "./pages.sh",
     "publish": "npm run build"
   },
-  "version": "1.4.0",
+  "version": "1.4.1",
   "files": [
     "dist/build.js",
     "src/"
