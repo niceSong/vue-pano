@@ -1,5 +1,7 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: './example/main.js',
@@ -18,7 +20,7 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader'
@@ -29,8 +31,20 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options:{
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-runtime'],
+            comments: false
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.json$/,
@@ -57,7 +71,8 @@ module.exports = {
     port: 8989,
     noInfo: true
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [new VueLoaderPlugin()]
 }
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'github') {
@@ -69,9 +84,17 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'github') 
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
+    new UglifyJSPlugin({
+      uglifyOptions: {
+        warning: "verbose",
+        ecma: 6,
+        beautify: false,
+        compress: false,
+        comments: false,
+        mangle: false,
+        toplevel: false,
+        keep_classnames: true,
+        keep_fnames: true
       }
     }),
     new webpack.optimize.OccurrenceOrderPlugin()

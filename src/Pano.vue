@@ -518,7 +518,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 
 .viewport {
   font-family: Helvetica, Arial, sans-serif;
