@@ -63,23 +63,9 @@
     <h1>Vue.js 全景漫游</h1>
 
     <div id="app">
-      <pano title="会议室" width="720" height="480" bundle="example/assets/pano/hall-of-fame/" format="jpg"></pano>
+      <pano src="example/assets/pano/hall-of-fame/hall.json" width="720" height="480"></pano>
     </div>
 
-    <p>示例代码</p>
-
-    <pre id="example" class="code" style='color:#000000;background:#ffffff;'><span style='color:#a65700; '>&lt;</span><span style='color:#5f5035; '>pano</span><span style='color:#274796; '> </span><span style='color:#074726; '>title</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"长亭科技前台"</span><span style='color:#274796; '> </span><span style='color:#074726; '>width</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"720"</span><span style='color:#274796; '> </span><span style='color:#074726; '>height</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"480"</span><span style='color:#274796; '> bundle</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"example/assets/pano/reception/"</span><span style='color:#274796; '> format</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"jpg"</span><span style='color:#a65700; '>&gt;</span><span style='color:#a65700; '>&lt;/</span><span style='color:#5f5035; '>pano</span><span style='color:#a65700; '>&gt;</span>
-<span style='color:#a65700; '>&lt;</span><span style='color:#5f5035; '>pano</span><span style='color:#274796; '> </span><span style='color:#074726; '>title</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"茶水间"</span><span style='color:#274796; '> </span><span style='color:#074726; '>width</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"720"</span><span style='color:#274796; '> </span><span style='color:#074726; '>height</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"480"</span><span style='color:#274796; '> bundle</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"example/assets/pano/pantry/"</span><span style='color:#274796; '> format</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>"jpg"</span><span style='color:#a65700; '>&gt;</span><span style='color:#a65700; '>&lt;/</span><span style='color:#5f5035; '>pano</span><span style='color:#a65700; '>&gt;</span></pre>
-    <script type="text/javascript">
-      document.getElementById('example').addEventListener('click', function(e) {
-        var selection = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        e.preventDefault()
-      })
-    </script>
     <script type="text/javascript" src="dist/build.js"></script>
   </body>
 </html>

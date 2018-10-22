@@ -191,35 +191,52 @@ export default {
       gl.useProgram(this.program)
     },
 
-    loadTextures() {
+    load() {
       const gl = this.gl
-      let tasks = ['top', 'bottom', 'front', 'left', 'back', 'right'].map(
-        direction => new Promise((resolve, reject) => {
-          let url = this.bundle + direction + '.' + this.format
-          let img = new Image()
+      const xhr = new XMLHttpRequest()
+      xhr.onload = () => {
+        const { multires, baseurl, title } = JSON.parse(xhr.responseText)
+        const base = new URL(this.src, baseurl || location.href)
+        const levels = multires.sort((a, b) => a.size - b.size)
 
-          img.onload = () => {
-            let texture = this.textures[direction] = gl.createTexture()
-            gl.bindTexture(gl.TEXTURE_2D, texture)
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT)
-            gl.generateMipmap(gl.TEXTURE_2D)
-            gl.bindTexture(gl.TEXTURE_2D, null)
+        // todo: lazy load
+        // todo: slices
+        this.title = title
+        const tasks = Object.entries(levels.pop().directions)
+          .map(([direction, filename]) => new Promise((resolve, reject) => {
+            // todo: filename formatter
+            let url = new URL(filename, base)
+            let img = new Image()
 
-            resolve(url)
-          }
-          img.onerror = reject
-          img.src = url
-        }))
+            img.onload = () => {
+              const texture = this.textures[direction] = gl.createTexture()
 
-      Promise.all(tasks).then(images => {
+              gl.bindTexture(gl.TEXTURE_2D, texture)
+              gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
+              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR)
+              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT)
+              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT)
+              gl.generateMipmap(gl.TEXTURE_2D)
+              gl.bindTexture(gl.TEXTURE_2D, null)
 
-      }).catch(e => {
-        this.error = 'Unable to load all images'
-      })
+              resolve(url)
+            }
+            img.onerror = reject
+            img.src = url
+          }))
+
+        Promise.all(tasks).then(() => {
+
+        }).catch(e => {
+          this.error = 'Unable to load all images'
+        })
+      }
+      xhr.onerror = () => {
+        this.error = 'Unable to load ' + this.src
+      }
+      xhr.open('GET', this.src, false)
+      xhr.send()
     },
 
     initModel() {
@@ -436,7 +453,7 @@ export default {
     }
 
     this.initShaders()
-    this.loadTextures()
+    this.load()
     this.initModel()
     this.draw()
   },
@@ -457,15 +474,14 @@ export default {
   props: {
     width: String,
     height: String,
-    title: String,
-    bundle: String,
-    format: String,
+    src: String,
     debug: String,
-    description: String
   },
 
   data() {
     return {
+      title: '',
+
       gl: null,
       dragging: false,
       pinching: false,

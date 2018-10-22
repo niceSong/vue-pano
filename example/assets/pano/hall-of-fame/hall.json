@@ -1,0 +1,23 @@
+{
+  "baseurl": null,
+  "preview": "preview.jpg",
+  "multires": [
+    {
+      "size": 512,
+      "slices": 1,
+      "directions": {
+        "top": "top.jpg",
+        "bottom": "bottom.jpg",
+        "front": "front.jpg",
+        "left": "left.jpg",
+        "back": "back.jpg",
+        "right": "right.jpg"
+      }
+    }
+  ],
+  "title": "HALL OF FAME",
+  "description": {
+    "type": "plain",
+    "content": "The hall of fame"
+  }
+}
