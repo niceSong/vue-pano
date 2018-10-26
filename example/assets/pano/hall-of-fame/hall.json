@@ -15,6 +15,14 @@
       }
     }
   ],
+  "anchors": [
+    {
+      "position": [1.0471975511965976, -1.0471975511965976, 0],
+      "type": "link",
+      "label": "Visit Google",
+      "href": "https://google.com"
+    }
+  ],
   "title": "HALL OF FAME",
   "description": {
     "type": "plain",

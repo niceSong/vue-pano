@@ -1,8 +1,5 @@
 <template>
-  <div class="vue-pano viewport" ref="viewport" :class="{ dragging: dragging }"
-      @mousedown="startDrag" @touchstart="startDrag"
-      @mousemove="onDrag" @touchmove="onDrag"
-      @mouseup="stopDrag" @touchend="stopDrag" @mouseleave="stopDrag">
+  <div class="vue-pano viewport" ref="viewport" :class="{ dragging: dragging }">
 
     <div class="error" v-if="error"><span>{{ error }}</span></div>
     <template v-else>
@@ -26,6 +23,15 @@
         <button @click="toggleFullscreen"></button>
       </div>
       <canvas ref="canvas"></canvas>
+      <div class="overlays scene" ref="scene"
+        @mousedown="startDrag" @touchstart="startDrag"
+        @mousemove="onDrag" @touchmove="onDrag"
+        @mouseup="stopDrag" @touchend="stopDrag" @mouseleave="stopDrag">
+        <!-- todo: computed -->
+        <div class="stage" ref="stage" v-bind:style="{ transform: `rotateX(${theta}deg) rotateY(${phi}deg)` }">
+          <span v-for="(anchor, index) in overlays" v-bind:style="anchor.style">{{ anchor.label }}</span>
+        </div>
+      </div>
       <div class="debug" v-show="debug">fov: {{ fov }}, theta: {{ theta }}, phi: {{ phi }}</div>
     </template>
 
@@ -90,9 +96,6 @@ export default {
       }
     },
 
-    prevent(e) {
-      event.preventDefault()
-    },
 
     onDrag(e) {
       if (this.pinching) {
@@ -195,9 +198,19 @@ export default {
       const gl = this.gl
       const xhr = new XMLHttpRequest()
       xhr.onload = () => {
-        const { multires, baseurl, title } = JSON.parse(xhr.responseText)
+        const { multires, baseurl, title, anchors } = JSON.parse(xhr.responseText)
         const base = new URL(this.src, baseurl || location.href)
         const levels = multires.sort((a, b) => a.size - b.size)
+
+        this.overlays = anchors.map(anchor => {
+          const { position } = anchor
+          // todo: 
+          const style = {
+            position: 'absolute',
+            transform: 'translateZ(-500px)'
+          }
+          return Object.assign(anchor, { style })
+        })
 
         // todo: lazy load
         // todo: slices
@@ -235,7 +248,7 @@ export default {
       xhr.onerror = () => {
         this.error = 'Unable to load ' + this.src
       }
-      xhr.open('GET', this.src, false)
+      xhr.open('GET', this.src, true)
       xhr.send()
     },
 
@@ -404,6 +417,9 @@ export default {
         gl.bindTexture(gl.TEXTURE_2D, textures.right)
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 30 * 2)
 
+        // anchors and overlays
+
+
         this.forceUpdate = false
       }
 
@@ -412,7 +428,7 @@ export default {
   },
 
   mounted() {
-    const {canvas} = this.$refs
+    const { canvas, scene } = this.$refs
     const gl = this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
 
     if (!gl) {
@@ -426,12 +442,10 @@ export default {
     this.previous.theta = -this.theta
     this.previous.fov = -this.fov
 
-    const { zoom, resize, prevent } = this
-    this.$el.addEventListener('mousewheel', zoom, false)
-    this.$el.addEventListener('DOMMouseScroll', zoom, false)
+    const { zoom, resize } = this
+    scene.addEventListener('mousewheel', zoom, false)
+    scene.addEventListener('DOMMouseScroll', zoom, false)
     addEventListener('resize', resize, false)
-    addEventListener('touchmove', prevent, false)
-    document.body.addEventListener('touchstart', prevent)
 
     const vendors = [
       ['requestFullsceen', 'fullScreenElement', 'cancelFullScreen'],
@@ -459,13 +473,11 @@ export default {
   },
 
   beforeDestroy() {
-    const { zoom, resize, prevent } = this
-
-    this.$el.addEventListener('mousewheel', zoom, false)
-    this.$el.addEventListener('DOMMouseScroll', zoom, false)
+    const { zoom, resize } = this
+    const { canvas, scene } = this.$refs
+    scene.removeEventListener('mousewheel', zoom, false)
+    scene.removeEventListener('DOMMouseScroll', zoom, false)
     removeEventListener('resize', resize, false)
-    removeEventListener('touchmove', prevent, false)
-    document.body.removeEventListener('touchstart', prevent)
 
     // todo: release webgl resources
     // this.gl.deleteTexture()
@@ -481,6 +493,7 @@ export default {
   data() {
     return {
       title: '',
+      overlays: [],
 
       gl: null,
       dragging: false,
@@ -573,17 +586,46 @@ export default {
   margin: 0;
   right: 10px;
   top: 10px;
+  z-index: 1;
 }
 
 .controls {
   left: 10px;
   position: absolute;
   top: 10px;
+  z-index: 1;
+}
+
+.overlays {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.scene {
+  perspective: 1000px;
+}
+
+.stage {
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+  width: 512px;
+  height: 512px;
+  transform-style: preserve-3d;
+  transform: translateZ(-500px) rotateX(0deg);
 }
 
 .zoom {
   width: 26px;
   margin-left: 12px;
+}
+
+.handle {
+  z-index: 1;
 }
 
 .handle button {
@@ -704,7 +746,7 @@ canvas {
   background: #000;
   left: 0;
   top: 0;
-  z-index: -1;
+  z-index: -2;
 }
 
 </style>
