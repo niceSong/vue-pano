@@ -7,10 +7,10 @@
     <div class="error" v-if="error"><span>{{ error }}</span></div>
     <template v-else>
       <div class="controls" ref="controls">
-        <div class="zoom handle">
-          <button class="zoomin" ref="zoomin" @click="zoomin">+</button>
-          <button class="zoomout" ref="zoomout" @click="zoomout">-</button>
-        </div>
+<!--        <div class="zoom handle">-->
+<!--          <button class="zoomin" ref="zoomin" @click="zoomin">+</button>-->
+<!--          <button class="zoomout" ref="zoomout" @click="zoomout">-</button>-->
+<!--        </div>-->
 
         <div class="campas">
           <div class="direction" v-bind:style="{ transform: 'rotate(' + (-phi) + 'deg)' }" @click="reset">
