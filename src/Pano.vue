@@ -561,7 +561,7 @@ export default {
 
 .controls {
   left: 10px;
-  position: relative;
+  position: absolute;
   top: 10px;
 }
 
