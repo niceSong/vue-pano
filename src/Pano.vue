@@ -522,7 +522,7 @@ export default {
 
 .viewport {
   font-family: Helvetica, Arial, sans-serif;
-  position: absolute;
+  position: relative;
 
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -539,7 +539,7 @@ export default {
 }
 
 .viewport > * {
-  position: absolute;
+  position: relative;
 }
 
 .hover {
