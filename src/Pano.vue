@@ -539,7 +539,7 @@ export default {
 }
 
 .viewport > * {
-  position: relative;
+  position: absolute;
 }
 
 .hover {
