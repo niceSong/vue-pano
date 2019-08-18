@@ -666,7 +666,7 @@ export default {
   left: 0;
   line-height: 24px;
   margin-top: -12px;
-  position: relative;
+  position: absolute;
   right: 0;
   text-align: center;
   text-shadow: 0 0 2px #000;
