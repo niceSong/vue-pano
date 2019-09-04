@@ -198,6 +198,7 @@ export default {
           let url = this.bundle + direction + '.' + this.format
           let img = new Image()
 
+          img.crossOrigin = 'anonymous'
           img.onload = () => {
             let texture = this.textures[direction] = gl.createTexture()
             gl.bindTexture(gl.TEXTURE_2D, texture)
